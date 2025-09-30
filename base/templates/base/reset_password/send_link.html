@@ -1,0 +1,29 @@
+{% extends "main.html" %}
+
+{% block content %}
+
+<div class="container">
+    <div class="password-criteria green-border-background text-align-center">
+        <p>Enter your email to receive a reset link.</p>
+    </div>
+
+    <div class="wrapper">
+        <h2>Reset Password</h2>
+        <form class="form" action="" method="POST">
+            {% csrf_token %}
+            <div class="field__group">
+              <input class="input-field" autocomplete="off" autofocus id="email" type="email" name="email" placeholder=" " required>
+              <label class="input-label" for="email">Email</label>
+            </div> 
+
+            <div class="submit-button-margin">
+                  <button type="submit" class="btn btn--main">
+                    Send Link
+                  </button>
+            </div>
+            
+        </form>      
+    </div>
+  </div> 
+
+{% endblock content %}

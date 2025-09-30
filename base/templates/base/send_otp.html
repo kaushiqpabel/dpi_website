@@ -1,0 +1,39 @@
+{% extends "main.html" %}
+
+{% block content %}
+
+<div class="container">
+      {% if formError %}
+          <div class="password-criteria text-align-center red-border-background">
+            <p>{{ formError }}</p>
+          </div>
+      {% endif %}
+
+      <div class="password-criteria text-align-center green-border-background">
+        <p>Please contact your site admin for registration key.</p>
+      </div>
+    <div class="wrapper">
+        <h2>Email Verification</h2>
+        <form class="form" action="" method="POST">
+            {% csrf_token %}
+            <div class="field__group">
+              <input autocomplete="off" class="input-field" autofocus id="email" {% if email %} value="{{email}}" {% endif %} type="email" name="email" placeholder=" " required>
+              <label class="input-label" for="email">Email</label>
+            </div>   
+
+            <div class="field__group">
+              <input autocomplete="off" class="input-field" id="registration-key" {% if registrationKey %} value="{{registrationKey}}" {% endif %}  type="text" name="registrationKey" placeholder=" " required>
+              <label class="input-label" for="registration-key">Registration Key</label>
+            </div> 
+            
+            <div class="submit-button-margin">
+              <button type="submit" class="btn btn--main">
+                Send OTP
+              </button>   
+            </div>
+                       
+        </form>      
+    </div>
+</div> 
+
+{% endblock content %}

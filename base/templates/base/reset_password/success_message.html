@@ -1,0 +1,16 @@
+{% extends "main.html" %}
+
+{% block content %}
+
+<div class="container">
+    <div class="password-criteria green-border-background text-align-center">
+      {% if linkSend %}
+          <p>We've emailed you instructions for setting your password.</p>
+      {% else %}
+          <p>Your password has been successfully reset. You can now log in.</p>
+          <a href="{% url 'login' %}" style="margin-top: 1.5rem;" class="btn btn--main">Log In</a>
+      {% endif %}
+    </div>
+</div> 
+
+{% endblock content %}

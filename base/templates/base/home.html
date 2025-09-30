@@ -1,0 +1,36 @@
+{% extends "main.html" %}
+{% load static %}
+
+{% block content %}
+<div class="grid-container navbar-exist">
+  <div class="grid-wrapper">
+    <div class="grid profile-card-grid">
+      {% if users %}
+            {% for user in users %}
+              <a href="{% url 'userPage' user.id %}">
+                  <div class="cell profile-card">
+                    <div class="profile-photo">
+                      {% if user.avatar %}
+                          <img src="{{user.avatar.url}}" alt="" />
+                      {% else %}
+                          <img src="{% static 'icons/avatar.svg' %}" alt="" />
+                      {% endif %}
+                    </div>
+                    <div class="name">{{user.name|truncatewords:3}}</div>
+                    <div class="job">{{user.profile_bio|truncatewords:5}}</div>
+                  </div>	
+              </a>
+            {% endfor %}
+      {% else %}
+           {% if method == 'POST' %}   
+              <a href="{% url 'homePage' %}" class="no-user-home-page-button">Home Page</a>
+           {% else %}
+              <a href="{% url 'userPage' user.id %}" class="no-user-home-page-button">My Profile</a>
+           {% endif %}
+      {% endif %}
+
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="{% static 'styles/style.css' %}">
+  <title>DPI</title>
+  <link rel="icon" type="image/x-icon" href="{% static 'icons/spiderman.svg' %}">
+
+</head>
+<body>
+
+{% if not page %}
+  {% include 'navbar.html' %}
+{% endif %}
+
+{% block content %}
+
+{% endblock content %}
+
+
+    <div id="message-box-container" class="fixed-container">
+      <div class="card wrapper ">
+          <div id="message-box-header-body-container">
+            {% if userFormPage %}
+              <h2>{{header}}</h2>
+              <div class="card-content">{{body|safe}}</div>
+            {% elif homePage %}
+              <h2>User Not Available</h2>
+              <div class="card-content">{{homePage}}</div>
+            {% endif %}
+          </div>
+        <div class="single-button-container">
+          <button id="message-box-close-button" class="btn btn--main">Close</button>
+        </div>
+      </div>
+    </div> 
+
+  <script src="{% static 'js/scripts.js' %}"></script>
+</body>
+</html>

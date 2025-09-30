@@ -1,0 +1,89 @@
+{% load static %}
+<nav class="navbar">
+  <div class="navbar-content">
+    
+      <a class="logo-container" href="{% url 'homePage' %}" title="Home Page"><img src="{% static 'icons/home.svg' %}" alt="logo" class="logo"></a>
+		
+      <form action="{% url 'homePage' %}" method="post" class="search-form-desktop" id="desktop-mode-search-form">
+         {% csrf_token %}
+         <div class="search-input-container">
+             <input autocomplete="off" class="input-field" id="desktop-mode-search-criteria-input" name="search-criteria" readonly placeholder="Search by">
+             <span class="selection-dropdown-arrow">▼</span> 
+             <div id="search-criteria-dropdown"></div>  
+         </div>
+        <div id="desktop-mode-search-value-input-container"></div>
+
+        <button class="btn btn--green" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+        </svg></button>
+      </form>
+
+    
+			<div class="right-side-navbar-items">
+				<!-- Search icon for small screen -->
+					<div class="user-icon search-icon" id="searchOpen">
+            <img src="{% static 'icons/search.svg' %}" alt="" />
+          </div>
+				
+
+        {% if request.user.is_superuser %}
+          <div class="user-menu">
+            <div id="reg-key-toggle" class="user-icon" tabindex="0">
+                <img src="{% static 'icons/reg_key.svg' %}" alt="" />
+            </div>
+            <div id="reg-key-dropdown" class="reg-key-dropdown">
+              <a href="{% url 'getRegKeyPage' %}" class="nav-link">Reg Key</a>
+              {% if registrationObjs %}
+                <a href="#" id="download-reg-key" class="nav-link">Download Key</a>
+              {% endif %}
+              <div class="arrow-corner"></div>
+            </div>
+          </div>
+        {% endif %}
+
+				<div class="user-menu">
+          <div id="user-toggle" class="user-icon" tabindex="0">
+              {% if request.user.avatar %}
+                  <img src="{{request.user.avatar.url}}" alt="" />
+              {% else %}
+                  <img src="{% static 'icons/avatar.svg' %}" alt="" />
+              {% endif %}
+          </div>
+					<div id="user-dropdown" class="user-dropdown">
+            <div class="arrow-corner"></div>
+            {% if user %}
+						    <a href="{% url 'userPage' request.user.id %}">My Profile</a>
+            {% endif %}
+						<a href="{% url 'logout' %}">Logout</a>
+					</div>
+
+          
+          
+				</div>
+			</div>
+			
+			
+			
+			 <!-- Fullscreen search mode (mobile) -->
+				<form action="{% url 'homePage' %}" method="post" class="search-mode" id="mobile-mode-search-form">
+           {% csrf_token %}
+					<div class="back-btn" id="searchBack">
+            <img src="{% static 'icons/back_arrow.svg' %}" alt="" />
+          </div>
+
+          <div class="search-input-container">
+             <input autocomplete="off" class="input-field" id="mobile-mode-search-criteria-input" name="search-criteria" readonly placeholder="Search by">
+             <span class="selection-dropdown-arrow">▼</span> 
+             <div id="mobile-mode-search-dropdown"></div>
+         </div>
+            <div id="mobile-mode-search-value-input-container"></div>
+            
+            <button class="btn btn--green" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+            </svg></button>
+          </form>
+  </div>
+	
+	
+	 
+</nav>

@@ -1,0 +1,119 @@
+{% extends "main.html" %}
+
+{% block content %}
+
+{% if page == "login" %}
+
+  <div class="container">
+    {% if success %}
+    <div class="password-criteria green-border-background">
+      <p>{{success}}</p>
+    </div>
+    {% endif %}
+
+    {% if loginError %}
+        <div class="password-criteria text-align-center red-border-background">
+          <p>{{ loginError }}</p>
+        </div>
+    {% endif %}
+
+    <div class="wrapper">
+        <h2>Log In</h2>
+        <form class="form" action="" method="POST">
+
+          {% csrf_token %}
+          
+            <div class="field__group">
+              <input autofocus class="input-field" id="email" type="email" name="email" {% if email %} value="{{email}}" {% endif %} placeholder=" " autocomplete="off" required>
+              <label class="input-label" for="email">Email</label>
+            </div>
+  
+            <div class="field__group">
+              <input class="input-field" id="password" name="password" type="password" {% if password %} value="{{password}}" {% endif %} autocomplete="new-password" placeholder=" " required>
+              <label class="input-label" for="password">Password</label>
+            </div>
+            <a href="{% url 'reset_password' %}" style="margin-top: .25rem;" class="btn btn--link">Forgot password?</a>
+
+            <div class="submit-button-margin">
+              <button class="btn btn--main">
+                <svg fill="white" version="1.1" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 32 32">
+                  <title>login</title>
+                  <path d="M27 12h-1v-2c0-5.514-4.486-10-10-10s-10 4.486-10 10v2h-1c-0.553 0-1 0.447-1 1v18c0 0.553 0.447 1 1 1h22c0.553 0 1-0.447 1-1v-18c0-0.553-0.447-1-1-1zM8 10c0-4.411 3.589-8 8-8s8 3.589 8 8v2h-16v-2zM26 30h-20v-16h20v16z"></path>
+                  <path d="M15 21.694v4.306h2v-4.306c0.587-0.348 1-0.961 1-1.694 0-1.105-0.895-2-2-2s-2 0.895-2 2c0 0.732 0.413 1.345 1 1.694z"></path>
+                </svg>
+                Login
+              </button>
+            </div>
+            
+        </form>
+        <div class="auth__action">
+          <p>Haven't signed up yet?</p>
+          <a href="{% url 'sendOTP' %}" class="btn btn--link">Register</a>
+        </div>
+      
+    </div>
+  </div> 
+    
+
+{% elif page == "register" %}
+    <div class="container">
+
+      {% if registrationError %}
+          <div class="password-criteria red-border-background">
+            <p>{{ registrationError }}</p>
+          </div>
+      {% endif %}
+
+
+      <div class="password-criteria green-border-background">
+        <p>Password Criteria:</p>
+        <p>1. Your password can’t be too similar to your other personal information.</p>
+        <p>2. Your password must contain at least 8 characters.</p>
+        <p>3. Your password can’t be a commonly used password.</p>
+        <p>4. Your password can’t be entirely numeric.</p>
+      </div>
+      <div class="wrapper">
+          <h2>Register</h2>
+          <form class="form" action="" method="POST">
+              {% csrf_token %}
+
+              <div class="field__group">
+                
+                <input class="input-field" type="email" name="email" maxlength="254" {% if email %} value="{{email}}" {% endif %} placeholder=" " autofocus autocomplete="off" required id="id_email">
+                <label class="input-label" for="id_email">Email</label>
+              </div>
+
+              <div class="field__group">
+                
+                <input class="input-field" type="password" name="password1" placeholder=" " autocomplete="new-password" required id="id_password1">   
+                <label class="input-label" for="id_password1">Password</label>            
+              </div>
+              
+              <div class="field__group">
+                <input class="input-field" type="password" name="password2" autocomplete="new-password" placeholder=" " required id="id_password2">
+                <label class="input-label" for="id_password2">Password confirmation</label>
+              </div>
+
+              <div class="submit-button-margin">
+                  <button class="btn btn--main" type="submit">
+                    <svg fill="white" version="1.1" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 32 32">
+                      <title>lock</title>
+                      <path
+                        d="M27 12h-1v-2c0-5.514-4.486-10-10-10s-10 4.486-10 10v2h-1c-0.553 0-1 0.447-1 1v18c0 0.553 0.447 1 1 1h22c0.553 0 1-0.447 1-1v-18c0-0.553-0.447-1-1-1zM8 10c0-4.411 3.589-8 8-8s8 3.589 8 8v2h-16v-2zM26 30h-20v-16h20v16z">
+                      </path>
+                      <path
+                        d="M15 21.694v4.306h2v-4.306c0.587-0.348 1-0.961 1-1.694 0-1.105-0.895-2-2-2s-2 0.895-2 2c0 0.732 0.413 1.345 1 1.694z">
+                      </path>
+                    </svg>
+
+                    Register
+                </button>
+              </div>
+              
+            
+          </form>        
+      </div>
+    </div> 
+{% endif %}
+  
+{% endblock content %}

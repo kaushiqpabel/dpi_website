@@ -1,0 +1,40 @@
+{% extends "main.html" %}
+
+{% block content %}
+
+{% if registrationObjs %}
+
+<div class="grid-container navbar-exist">
+    <div class="grid-wrapper">
+      <h1>Available Registration Keys</h1>
+      <div id="grid" class="grid reg-key-grid" >
+        {% for registrationObj in registrationObjs %}
+          <div class="cell">{{ registrationObj.registrationKey }}</div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+{% else %}
+  <div class="container navbar-exist">
+    <div class="wrapper">
+        <h2>Generate Key</h2>
+        <form class="form" action="" method="POST">
+          {% csrf_token %}
+            <div class="field__group">
+              <input class="input-field" type="text" autofocus name="input-value" placeholder=" " required pattern="[0-9]*" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+              <label class="input-label" for="registration-key">Number of Keys</label>
+            </div>  
+            <div class="submit-button-margin">
+                <button type="submit" class="btn btn--main">
+                    Generate
+                </button>
+            </div>
+            
+        </form>      
+    </div>
+  </div>
+
+{% endif %}
+  
+{% endblock content %}

@@ -1,0 +1,193 @@
+{% extends "main.html" %}
+{% load static %}
+
+{% block content %}
+  <div class="profile-info-container navbar-exist">
+      <form id="user-form" class="profile-info" action="" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+        <!-- About -->
+        <section class="section">
+          <h2>About</h2>
+          <div class="field__group">
+            <input autocomplete="off" class="input-field" type="text" id="full-name" autofocus {% if user.name %} value="{{user.name}}" {% endif %} name="name" placeholder=" " />
+            <label class="input-label" for="full-name">Full Name<span class="required-field">*</span></label>
+          </div>
+          
+
+          <div class="field__group">
+            <textarea autocomplete="off" class="textarea-field" id="profile-bio" name="profile_bio" placeholder=" ">{% if user.profile_bio %}{{user.profile_bio}}{% endif %}</textarea>
+            <label class="textarea-label" for="profile-bio">Short Bio<span class="required-field">*</span></label>
+          </div>
+          
+
+          <div class="input-element-grid-container gender-birth-blood">
+              <div>
+                <div class="field__group">
+                  <input autocomplete="off" class="input-field" type="text" name="date_of_birth" {% if user.date_of_birth %} value="{{user.date_of_birth|date:'Y-m-d'}}" {% endif %} id="date-of-birth" placeholder=" ">
+                  <label class="input-label" for="date-of-birth">Date of Birth<span class="required-field">*</span></label>
+                </div>
+                <div class="calendar-container">
+                  <div class="calendar" id="calendar"></div>
+                </div>
+                
+              </div>
+
+              <div>
+                <div class="field__group gender-selection-field">
+                  <input autocomplete="off" class="input-field" id="gender-list-input" name="gender" {% if user.gender %} value="{{user.gender}}" {% endif %} placeholder=" " readonly>
+                  <label class="input-label" for="gender-list-input">Gender<span class="required-field">*</span></label>
+                  <span class="selection-dropdown-arrow">▼</span> 
+                  <div id="gender-dropdown"></div>
+                </div>
+              </div>
+
+
+              <div>
+                <div class="field__group blood-group-selection-field">
+                  <input autocomplete="off" class="input-field" id="blood-group-list-input" name="blood_group" {% if user.blood_group %} value="{{user.blood_group}}" {% endif %} placeholder=" " readonly>
+                  <label class="input-label" for="blood-group-list-input">Blood Group<span class="required-field">*</span></label>
+                  <span class="selection-dropdown-arrow">▼</span> 
+                  <div id="blood-group-dropdown"></div>            
+                </div>
+              </div>
+
+
+              <div>
+                <div class="field__group department-selection-field">
+                  <input autocomplete="off" class="input-field" id="department-list-input" name="department" placeholder=" " {% if user.department %} value="{{user.department}}" {% endif %} readonly>
+                  <label class="input-label" for="department-list-input">Department<span class="required-field">*</span></label>
+                  <span class="selection-dropdown-arrow">▼</span> 
+                  <div id="department-dropdown"></div>            
+                </div>
+              </div>
+          </div>
+        </section>
+
+        <!-- Social -->
+        <section class="section">
+          <h2>Contacts & Social Media</h2>
+          <div class="contact-input-container" id="contact-input-container">
+             {% if user.contacts %} {{contactAndSocialMediaHTMLText|safe}} {% endif %}
+          </div>
+          <div class="field__group contact-selection-field">
+              <input autocomplete="off" class="input-field" id="contact-list-input" readonly placeholder=" ">
+              <label class="input-label" for="contact-list-input">Platform Name</label>
+              <span class="selection-dropdown-arrow">▼</span> 
+               <div id="contact-dropdown"></div>
+            <div>
+          </div>
+          
+        </section>
+
+        <section class="section">
+          <h2>Address</h2>
+          <div class="field__group">
+            <textarea autocomplete="off" class="textarea-field" id="current-address" name="current_address" placeholder=" ">{% if user.current_address %}{{user.current_address}}{% endif %}</textarea>
+            <label class="textarea-label" for="current-address">Current Address</label>
+          </div>
+          
+
+          <div class="field__group">
+              <textarea autocomplete="off" class="textarea-field" id="permanent-address" name="permanent_address" placeholder=" ">{% if user.permanent_address %}{{user.permanent_address}}{% endif %}</textarea>
+              <label class="textarea-label" for="permanent-address">Permanent Address</label>
+          </div>
+          
+        </section>
+
+        <section class="section">
+          <h2>Your Job</h2>
+
+          <div class="contact-input-container">
+              <div>
+                <div class="field__group job-type-selection-field">
+                  <input autocomplete="off" class="input-field" id="job-type-list-input" name="job_type" {% if user.job_type %} value="{{user.job_type}}" {% endif %} placeholder=" " readonly>
+                  <label class="input-label" for="job-type-list-input">Job Type</label>
+                  <span class="selection-dropdown-arrow">▼</span> 
+                  <div id="job-type-dropdown"></div>              
+                </div>
+              </div>
+
+              <div>
+                <div class="field__group">
+                    <input autocomplete="off" class="input-field" type="text" {% if user.job_role %}  value="{{user.job_role}}" {% endif %} id="role-input" name="job_role" placeholder=" " />
+                    <label class="input-label" for="role-input">Your Role</label>
+                </div>
+                
+              </div>
+          </div>
+          
+          <div class="field__group">
+            <textarea autocomplete="off" class="textarea-field" id="job-description" name="job_description" placeholder=" ">{% if user.job_description %}{{user.job_description}}{% endif %}</textarea>
+            <label class="textarea-label" for="job-description">Job Description</label>
+          </div>
+          
+                 
+        </section>
+
+        <section class="section" tabindex="-1">
+          <div class="btn btn--main no-profile-resume-button" id="no-profile-photo-button">None</div>
+            <h2>Profile Photo</h2>
+            <div class="profile-preview-container">
+                <div class="profile-photo">
+                  {% if user.avatar %}
+                      <img id="saved-profile-photo-element" src="{{user.avatar.url}}" alt="" />
+                  {% else %}
+                      <img id="saved-profile-photo-element" src="{% static 'icons/avatar.svg' %}" alt="" />
+                  {% endif %}
+                  <img id="profile-photo-preview-element" alt="" />
+                  <img id="faceless-icon-element" src="{% static 'icons/avatar.svg' %}" alt="" />
+              </div>
+            </div>
+            
+
+            <!-- File input for uploading new photo -->
+            <div class="contact-input-container">  
+              <div>
+                <label class="btn btn--blue profile-resume-reset-button"for="profile-photo-upload-input">Upload Profile Picture (Optional)</label>
+                <input type="file" name="avatar" id="profile-photo-upload-input" class="file-input" accept="image/*" />
+              </div> 
+              <input type="hidden" value="unchanged" name="profile-photo-status" id="profile-photo-status-input"/>
+
+              <div>
+                  <div class="btn btn--blue profile-resume-reset-button" id="profile-photo-reset-button">Reset</div>
+              </div> 
+            </div>
+        </section>
+
+        <section class="section" tabindex="-1">
+          <div class="btn btn--main no-profile-resume-button" id="no-resume-button">None </div>
+            <h2>Resume</h2>
+            <div></div>
+            <div class="profile-preview-container">
+                  {% if user.resume %}
+                      <a id="saved-resume-element" href="{{user.resume.url}}" target="_blank" class="btn btn--link">Current Resume</a>
+                  {% else %}
+                      <div id="saved-resume-element" class="name job">
+                        No Resume
+                      </div>
+                  {% endif %}
+                  <a id="resume-preview-element" target="_blank" class="btn btn--link">Preview Resume</a>
+                  <div id="blank-resume-element" class="name job">
+                    No Resume
+                  </div>
+
+            </div>
+            
+
+            <!-- File input for uploading new photo -->
+            <div class="contact-input-container">  
+              <div>
+                <label class="btn btn--blue profile-resume-reset-button" for="resume-upload-input">Upload Resume (Optional)</label>
+                <input type="file" name="resume" id="resume-upload-input" class="file-input" accept="image/*, .pdf" />
+              </div>
+              <input type="hidden" value="unchanged" name="resume-status" id="resume-status-input"/>
+
+              <div class="btn btn--blue profile-resume-reset-button" id="resume-reset-button">Reset</div>
+            </div>
+        </section>
+
+        <button class="btn btn--main" type="submit">Save Profile</button>
+      </form>
+  </div>
+
+{% endblock content %}

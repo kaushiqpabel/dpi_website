@@ -1,0 +1,31 @@
+{% extends "main.html" %}
+
+{% block content %}
+
+<div class="container">
+    <div id="otp-time-container">
+      <div class="password-criteria green-border-background">
+            <p>An OTP has been sent to your email. Please submit the OTP in <span class="error" id="otp-timer"></span> minutes.</p>
+      </div>
+    </div>
+    
+    <div class="wrapper">
+        <h2>OTP Verification</h2>
+        <form class="form" action="" method="POST">
+            {% csrf_token %}
+            <div class="field__group">
+              <input autocomplete="off" class="input-field" id="otp" type="text" name="otp" placeholder=" " required>
+              <label class="input-label" for="otp">OTP</label>
+            </div>    
+            {% if otpError %} <div class="error">{{otpError}}</div> {% endif %}
+            <input autocomplete="off" id="time-left-input" type="hidden" {% if timeLeft %} value="{{timeLeft}}" {% endif %}/>    
+            <div class="submit-button-margin">
+              <button id="submit-resend-otp-button" type="submit" class="btn btn--main">
+                Submit OTP
+              </button>
+            </div>
+        </form>      
+    </div>
+  </div> 
+
+{% endblock content %}

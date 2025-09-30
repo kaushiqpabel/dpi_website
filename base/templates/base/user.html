@@ -1,0 +1,106 @@
+{% extends "main.html" %}
+{% load static %}
+
+{% block content %}
+  <div class="profile-info-container navbar-exist">
+    <div class="profile-info">
+      <section id="profile-photo-section" class="section" tabindex="-1">
+          <div class="profile-photo">
+              {% if user.avatar %}
+                  <img src="{{user.avatar.url}}" alt="" />
+              {% else %}
+                  <img src="{% static 'icons/avatar.svg' %}" alt="" />
+              {% endif %}
+          </div>
+      </section>
+
+      <section class="section" tabindex="-1">
+        <h2>About Me</h2>
+        <p>Hello! I'm {{user.name}}, I am a {{age}}-year-old, {{user.gender}}.</p>
+        <p>My blood group is {{user.blood_group}}</p>
+        <p>{{user.profile_bio}}</p>     
+        <p><span class="blue-color">Joined:</span class="blue-color">&nbsp; {{user.date_joined|date:"F d, Y"}}</p>  
+        <p><span class="blue-color">Last Updated:</span class="blue-color">&nbsp; {{user.updated}}</p> 
+      </section>
+
+      {% if contacts %}
+      <section class="section" tabindex="-1">
+        <h2>Contacts & Social Media</h2>
+            <div class="input-element-grid-container number-based-contact">
+              {% for number in contacts.numbers %}
+              <div class="contact-icon-value">
+                <div class="icons">
+                  <img src="{% static 'icons/'%}{{number.type}}.svg" alt="" />
+                </div>
+                <div>{{number.value}}</div>
+              </div>
+              {% endfor %}
+            </div>
+
+            <div style="margin-top: 1.5rem" class="input-element-grid-container link-based-contact">
+              {% for link in contacts.links %}
+                <a title="{{link.type}}" target="_blank" href="{{link.value}}">
+                  <img class="link-cell" src="{% static 'icons/'%}{{link.type}}.svg"/> 
+                </a>
+              {% endfor %}
+            </div>
+        
+      </section>
+      {% endif %}
+
+      {% if user.current_address or user.permanent_address %}
+        <section class="section" tabindex="-1">
+          <h2>My Address</h2>
+          {% if user.current_address %}
+              <p><span class="blue-color">Current Address:</span class="blue-color">&nbsp; {{user.current_address}}</p>
+          {% endif %}
+
+          {% if user.current_address %}
+              <p><span class="blue-color">Permanent Address:</span class="blue-color">&nbsp; {{user.permanent_address}}</p>
+          {% endif %}
+        </section>
+      {% endif %}
+
+      {% if user.job_type or user.job_role or user.job_description or user.resume %}
+        <section class="section" tabindex="-1">
+          <h2>My Profession</h2>
+          {% if user.job_type == "Government" %}
+              <p>I am currently working in a government organization.</p>
+          {% elif job.job_type == "Private" %}
+              <p>I am currently working in a private organization.</p>
+          {% elif job.job_type == "Bussiness" %}
+              <p>I am an entrepreneur.</p>
+          {% elif job.job_type == "Housewife" %}
+              <p>I am a homemaker. I spend my time with my family.</p> 
+          {% endif %}
+
+
+          {% if job.job_type != "Housewife" %}
+                {% if user.job_role %}
+                    <p><span class="blue-color">Role:</span class="blue-color">&nbsp; {{ user.job_role }}</p>
+                {% endif %}
+          {% endif %}
+
+          {% if user.job_description %}
+              <p><span class="blue-color">Description:</span class="blue-color">&nbsp; {{user.job_description }}</p>
+          {% endif %}
+
+          {% if user.resume %}
+              <a href="{{user.resume.url}}" download class="btn btn--link">Download Resume</a>
+          {% endif %}
+          
+        </section>
+      {% endif %} 
+
+      {% if request.user.id == user.id %}
+          <div class="double-button-container">
+            <a href="{% url 'userFormPage' %}" class="btn btn--main" type="submit">Edit Profile</a>
+            <a href="{% url 'changePassword' %}" class="btn btn--main" type="submit">Change Password</a>
+          </div>
+      {% endif %}
+      
+      
+    </div>
+    
+  </div>
+{% endblock content %}
