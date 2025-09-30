@@ -1,4 +1,5 @@
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -13,9 +14,12 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
 
+# for production 
+ALLOWED_HOSTS = ["KaushiqPabel.pythonanywhere.com"]
+DEBUG = False
+SECRET_KEY = os.getenv("SECRET_KEY")
+# ends here
 
-ALLOWED_HOSTS = []
-# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
